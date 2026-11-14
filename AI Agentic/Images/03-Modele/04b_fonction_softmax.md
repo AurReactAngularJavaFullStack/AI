@@ -1,0 +1,159 @@
+# Fiche 04b_fonction_softmax — La fonction softmax, affiche
+
+> Image : `04b_fonction_softmax.jpg` · Ouvrir l'image à gauche et lire ce texte à droite · Leçon complète : [Étape 2 — Softmax et température](<../../02-LLM-Softmax-et-Prompts/02-Softmax-Temperature-Prochain-Token.md>)
+
+**Même softmax que la fiche 04**
+
+## Ce que montre l'image
+
+Affiche « La fonction softmax en IA agentique ». La formule est écrite σ(z)i : il faut lire σ(z)ᵢ, l'indice i porte sur le résultat. Un exemple transforme les logits (2,1 ; 0,7 ; 1,5 ; −1,0) en probabilités, affichées dans un histogramme de quatre actions. Quatre usages : sélection d'actions, attention, classification, compromis entre exploration et exploitation.
+
+**Erreur dans l'image :** les probabilités affichées (0,58 ; 0,18 ; 0,40 ; 0,03) font 1,19, et non 1,00 comme l'affiche l'annonce. La vraie softmax de ces logits vaut environ (0,543 ; 0,134 ; 0,298 ; 0,024).
+
+**Ce que l'image ajoute à la fiche 04 :** l'idée qu'un agent tire son action selon cette distribution, ce qui laisse une chance aux actions moins bien notées.
+
+## Formule
+
+$$
+p_i = \frac{\exp(z_i / T)}{\sum_j \exp(z_j / T)}
+$$
+
+## Éléments
+
+$$
+z_i
+$$
+
+**zᵢ** : le score brut, ou logit, du choix i.
+
+$$
+T > 0
+$$
+
+**T** : la température, strictement positive. Absente de certaines affiches : alors T = 1.
+
+$$
+\exp
+$$
+
+**exp** : l'exponentielle. Elle rend chaque terme positif.
+
+$$
+\sum_{j} \exp(z_j / T)
+$$
+
+**La somme** : elle force les pᵢ à totaliser 1.
+
+## Ce que c'est
+
+Affiche de la fonction qui choisit le prochain token. Lire la fiche 04 pour la température et la version numériquement stable (retrancher le max).
+
+## Effets et impacts
+
+- Chaque pᵢ est dans ]0, 1[ et la somme vaut 1.
+- Retrancher une constante à tous les zᵢ ne change pas les probabilités.
+
+## Exemple chiffré
+
+Notes de l'image `04a` : 2, 5, 8 et 10, avec T = 1.
+
+$$
+e^{2} \approx 7{,}39,\quad e^{5} \approx 148{,}4,\quad e^{8} \approx 2\,981,\quad e^{10} \approx 22\,026
+$$
+
+Somme ≈ 25 163. Les chances valent environ 0,03 %, 0,6 %, 11,8 % et 87,5 %. La plus haute note prend presque toute la part. Baisser T écarte encore plus les parts. Monter T les rapproche.
+
+## Code Python équivalent
+
+Le programme ci-dessous calcule la formule de cette fiche et vérifie les nombres de son exemple chiffré, ainsi que ceux des autres fiches de la même formule. Il n'utilise que la bibliothèque standard de Python.
+
+**Ce que fait chaque fonction, avant d'entrer dans le code.**
+
+**`softmax(z, T)`** — Cette fonction rappelle un notaire qui répartit un héritage non pas à parts égales, mais selon un barème où chaque point d'écart se paie au prix fort. Elle reçoit la liste des scores z et la température T, lève `ValueError` si T vaut zéro ou moins, soustrait d'abord le score maximal pour garder des exponentielles raisonnables, calcule e à la puissance de chaque écart divisé par T, puis divise chaque terme par leur somme pour que les parts fassent exactement 1. Elle rend la liste des probabilités ; sur les notes 2, 5, 8 et 10, l'héritier le mieux noté reçoit environ 87,5 % et le moins bien noté environ 0,03 %.
+
+**`main()`** — C'est le clerc qui vérifie l'acte de partage sur plusieurs successions. Il ne reçoit rien ; il applique la fonction aux scores 2, 1 et 0 avec T = 1, 0,5 puis 2, aux notes 2, 5, 8 et 10 de cette fiche, dont il imprime les pourcentages 0,03, 0,59, 11,85 et 87,53, puis aux deux scores 2 et 1, qui donnent 0,731 et 0,269. Chaque répartition est contrôlée par un `assert` sur ses valeurs arrondies et sur sa somme égale à 1, un dernier contrôle vérifie que des scores de 1000 et 999 passent sans débordement, et il ne rend rien.
+
+```python
+"""Fiches 04, 04a à 04e — softmax et température : calcul et vérification des exemples chiffrés."""
+import math
+import sys
+
+try:
+    sys.stdout.reconfigure(encoding="utf-8")
+except Exception:
+    pass
+
+
+def softmax(z: list[float], T: float = 1.0) -> list[float]:
+    """pᵢ = exp(zᵢ / T) / Σⱼ exp(zⱼ / T), calculée en retranchant d'abord le maximum."""
+    if T <= 0:
+        raise ValueError("T doit être strictement positive (T = 0 est un argmax)")
+    m = max(z)
+    e = [math.exp((zi - m) / T) for zi in z]
+    s = sum(e)
+    return [ei / s for ei in e]
+
+
+def main() -> None:
+    p = softmax([2, 1, 0])                                   # fiches 04 et 04e
+    print("scores (2, 1, 0) :", [round(x, 3) for x in p])
+    assert [round(x, 3) for x in p] == [0.665, 0.245, 0.09]
+    for T, attendu in ((0.5, [0.867, 0.117, 0.016]), (2.0, [0.506, 0.307, 0.186])):
+        q = softmax([2, 1, 0], T)
+        print(f"T = {T} :", [round(x, 3) for x in q])
+        assert [round(x, 3) for x in q] == attendu
+    notes = softmax([2, 5, 8, 10])                           # fiches 04a, 04b, 04c
+    print("notes (2, 5, 8, 10) en % :", [round(100 * x, 2) for x in notes])
+    assert [round(100 * x, 1) for x in notes] == [0.0, 0.6, 11.8, 87.5]
+    deux = softmax([2, 1])                                   # fiche 04d
+    print("scores (2, 1) :", [round(x, 3) for x in deux])
+    assert [round(x, 3) for x in deux] == [0.731, 0.269]
+    assert all(math.isclose(sum(v), 1.0) for v in (p, notes, deux))
+    assert softmax([1000, 999])[0] > 0.7                     # pas de débordement grâce au maximum retranché
+    print("OK — toutes les vérifications sont passées.")
+
+if __name__ == "__main__":
+    main()
+```
+
+### Sortie attendue
+
+```text
+scores (2, 1, 0) : [0.665, 0.245, 0.09]
+T = 0.5 : [0.867, 0.117, 0.016]
+T = 2.0 : [0.506, 0.307, 0.186]
+notes (2, 5, 8, 10) en % : [0.03, 0.59, 11.85, 87.53]
+scores (2, 1) : [0.731, 0.269]
+OK — toutes les vérifications sont passées.
+```
+
+## Comment le code fonctionne
+
+`softmax` refuse d'abord une température nulle ou négative : à T = 0, la formule n'est plus définie, et le comportement attendu est un argmax, qui se code à part. Elle cherche ensuite le plus grand score m et calcule l'exponentielle de chaque score diminué de m, divisé par la température. Retrancher m ne change pas le résultat, puisque le facteur exp(−m / T) se retrouve au numérateur et au dénominateur et se simplifie, mais il garantit que la plus grande exponentielle vaut 1 : sans cette précaution, exp(1 000) dépasserait la capacité d'un nombre flottant, ce que vérifie la dernière ligne du programme. La fonction divise enfin chaque exponentielle par leur somme, ce qui donne des probabilités strictement positives dont le total vaut 1.
+
+`main` vérifie les exemples de toutes les fiches de la famille : les scores (2, 1, 0) donnent (0,665 ; 0,245 ; 0,090), une température de 0,5 concentre la masse sur le premier score (86,7 %) et une température de 2 l'aplatit (50,6 %) ; les notes (2, 5, 8, 10) des fiches 04a à 04c donnent environ 0,03 %, 0,6 %, 11,8 % et 87,5 %, la note la plus haute prenant presque toute la part ; et les deux scores (2, 1) de la fiche 04d donnent 0,731 et 0,269. La fiche 04e applique la même fonction aux scores des actions d'une politique.
+
+## Squelette algorithmique
+
+```text
+ALGORITHME Softmax
+ENTRÉES : scores z₁ … z_n, température T > 0
+SORTIE  : probabilités p₁ … p_n, strictement positives, de somme 1
+
+  m ← max(z)
+  POUR i DE 1 À n FAIRE  eᵢ ← exp((zᵢ − m) / T)  FIN POUR
+  S ← Σ eᵢ
+  POUR i DE 1 À n FAIRE  pᵢ ← eᵢ / S  FIN POUR
+  RETOURNER p
+
+USAGE : choisir le prochain token (tirage selon p), pondérer l'attention, ou choisir une action d'une politique.
+```
+
+**Complexité.** Trois passes sur les n scores : O(n) en temps, O(n) en mémoire pour le vecteur de probabilités. Pour un modèle de langage, n est la taille du vocabulaire, des dizaines de milliers de tokens, à chaque token généré.
+
+**Du squelette au code.** La recherche de m, la boucle des exponentielles, la somme et la division sont, dans l'ordre, les quatre lignes de `softmax` après la garde sur T.
+
+## Dans le cours
+
+- [Étape 2 — Softmax et température](<../../02-LLM-Softmax-et-Prompts/02-Softmax-Temperature-Prochain-Token.md>)
+- [Fiche 04 — Softmax et température](<04_softmax_temperature.md>)
