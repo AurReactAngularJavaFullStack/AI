@@ -1,0 +1,7 @@
+Réponds en français, au format Markdown compatible Typora.
+CONTRAINTE DE FORMAT (obligatoire) :
+- 100% des maths en display math uniquement : chaque formule/notation doit être dans un bloc $$ ... $$.
+- Aucun inline math : pas de $...$.
+- Même les notations (μ, σ, X̄_n, flèches, N(0,1), etc.) doivent être dans $$ ... $$.
+- Mets toute la réponse dans un seul bloc de code ```markdown ... ``` pour copier-coller.
+- Dans les blocs $$, utilise \begin{aligned} ... \end{aligned} si nécessaire et \text{...} pour le texte.

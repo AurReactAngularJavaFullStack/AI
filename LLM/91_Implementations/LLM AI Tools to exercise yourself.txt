@@ -1,0 +1,29 @@
+Lean 4 + mathlib (preuve vérifiable) + copilote (Lean Copilot / outils d’auto-preuve)
+
+GPT-5.2 ou Gemini 3 Pro / Deep Think (explication/raisonnement) 
+([Vellum AI](https://www.vellum.ai/llm-leaderboard))
+Kimi K2 Thinking puis OpenAI o3
+
+Wolfram GPT
+Wolfram|Alpha / Wolfram GPT (calcul exact, simplifications, équations) 
+
+- Overleaf / LaTeX:
+pour du “source propre” (puis tu colles la source).
+
+- Mathpix (si tu pars d’un PDF/image):
+qui sort du LaTeX/Markdown souvent clean.
+
+- Pandoc: 
+si tu dois convertir des docs LaTeX → Markdown propre.
+
+Obsidian est aussi MathJax-friendly (même famille de rendu)
+
+
+
+
+
+
+
+
+
+
