@@ -6,7 +6,7 @@ Chaque fiche reprend la formule de l'image (corrigée quand l'image contient une
 
 L'ordre de lecture est le numéro du dossier, puis le nom du fichier dans le dossier : `01-Introduction`, `02-Vecteurs`, `03-Modele`, `04-Recherche`, `05-Contexte`, `06-Decision`, `07-Mesure`, `08-Entrainement`, `09-Production`. Dans une ligne, on lit la fiche, puis ses autres affiches dans l'ordre (`NNa`, `NNb`…), puis on refait la démonstration correspondante du dossier `Demonstrations/` sur une feuille A4.
 
-Le dossier `10-Recapitulatif` ne numérote pas une formule de plus. Il remet les formules déjà vues dans l'ordre de construction de l'agent : cartes mentales, diagramme de classes vertical, synthèse, résumé et bilan. Son sommaire est [10-Recapitulatif/00_Sommaire.md](<10-Recapitulatif/00_Sommaire.md>). On l'ouvre après les neuf dossiers, pas à la place.
+Le dossier `00-Sommaire` ne numérote pas une formule de plus. Il remet les formules déjà vues dans l'ordre de construction de l'agent : cartes mentales, diagramme de classes vertical, synthèse, résumé et bilan. Son sommaire est [00-Sommaire/00_Sommaire.md](<00-Sommaire/00_Sommaire.md>). On l'ouvre après les neuf dossiers, pas à la place.
 
 ## Fiches, dans l'ordre de lecture
 

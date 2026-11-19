@@ -8,10 +8,10 @@ Six classes UML empilées. La flèche vers le bas veut dire « ensuite seulement
 
 | Classe | Formule qui fait foi | Pourquoi elle est ici |
 | --- | --- | --- |
-| 1. Espérance | \(\mathbb{E}[X] = \sum_i x_i P(x_i)\) | Tout coût moyen et toute utilité ultérieure sont cette somme. Étape 1. |
-| 2. Fiabilité | \(P = \prod_i p_i\) | L'agent est une chaîne. Ajouter une étape ne peut pas augmenter ce produit. Étape 1. |
-| 3. Softmax | \(P(i) = \exp(z_i/T) / \sum_j \exp(z_j/T)\) | Avant les prompts : les tokens jugés en sortent. \(T \to 0\) est un argmax. Étape 2. |
-| 4. Vraisemblance | \(P(x) = \prod_t P(x_t \mid x_{<t})\) | La phrase est le produit des softmax successives. Étape 3. |
+| 1. Espérance | 𝔼[X] = Σᵢ xᵢ P(xᵢ) | Tout coût moyen et toute utilité ultérieure sont cette somme. Étape 1. |
+| 2. Fiabilité | P = ∏ᵢ pᵢ | L'agent est une chaîne. Ajouter une étape ne peut pas augmenter ce produit. Étape 1. |
+| 3. Softmax | P(i) = exp(zᵢ/T) / Σⱼ exp(zⱼ/T) | Avant les prompts : les tokens jugés en sortent. T → 0 est un argmax. Étape 2. |
+| 4. Vraisemblance | P(x) = ∏ₜ P(xₜ ∣ x₁ … xₜ₋₁) | La phrase est le produit des softmax successives. Étape 3. |
 | 5. Budget | jetons admis ≤ fenêtre | On choisit ce qui entre avant de remplir. Étape 13 ter. |
 | 6. Vecteurs | scalaire, norme L2, cosinus | Une fois, avant la mémoire et le RAG. Le cosinus compare la direction. Étape 14. |
 

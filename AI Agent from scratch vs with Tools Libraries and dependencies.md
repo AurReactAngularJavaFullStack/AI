@@ -30,16 +30,16 @@ Les six captures mélangent trois genres. L'usine (LLM, RAG, base vectorielle, a
 
 ## Ce qui est le plus utilisé, par importance
 
-Il n'y a pas un gagnant unique en 2026. La composition la plus citée en production est LangGraph pour l'orchestration, plus MCP pour les outils. Les équipes qui veulent voir chaque arrêt restent en code simple, souvent Pydantic AI ou l'équivalent de l'étape 77. Les kits du cloud (Azure, Google ADK, Bedrock, OpenAI Agents SDK) suivent le contrat déjà signé avec le fournisseur.
+Il n'y a pas un gagnant unique en 2026. La composition la plus citée en production est **LangGraph** pour l'orchestration, plus MCP pour les outils. Les équipes qui veulent voir chaque arrêt restent en code simple, souvent **Pydantic AI** ou l'équivalent de l'étape 77. Les kits du cloud (Azure, Google ADK, Bedrock, OpenAI Agents SDK) suivent le contrat déjà signé avec le fournisseur.
 
-1. La boucle et ses arrêts. C'est l'agent. LangGraph est le cadre le plus répandu pour l'écrire de façon durable, avec reprise et pause humaine. Le code du cours fait la même chose en plus petit.
+1. La boucle et ses arrêts. C'est l'agent. **LangGraph** est le cadre le plus répandu pour l'écrire de façon durable, avec reprise et pause humaine. Le code du cours fait la même chose en plus petit.
 2. Les outils, le schéma, les permissions. Dans un seul programme, un registre suffit. Dès que l'outil est ailleurs, MCP est devenu le protocole supposé, pas une option parmi d'autres.
-3. L'évaluation. Tool Call F1, réussite de la tâche, fidélité, barrière avant déploiement. LangSmith est le nom le plus visible côté LangGraph. Le palier 10 le fait sans lui.
+3. L'évaluation. Tool Call F1, réussite de la tâche, fidélité, barrière avant déploiement. **LangSmith** est le nom le plus visible côté **LangGraph**. Le palier 10 le fait sans lui.
 4. Les garde-fous. Refus par défaut, veto, approbation. Peu présents sur les murs de logos, décisifs dans une banque. Le palier 09 les a.
 5. Le contexte et la mémoire. Ce qui a le droit d'entrer dans la fenêtre. Tous les cadres le proposent. La formule reste celle du cours.
-6. La recherche. Hybride : mots exacts et sens. LlamaIndex est le nom le plus associé au pipeline documentaire. La base vectorielle est un choix de stockage : Postgres là où Postgres existe déjà, Qdrant, Milvus ou FAISS quand l'index est le produit.
+6. La recherche. Hybride : mots exacts et sens. **LlamaIndex** est le nom le plus associé au pipeline documentaire. La base vectorielle est un choix de stockage : Postgres là où Postgres existe déjà, **Qdrant**, **Milvus** ou **FAISS** quand l'index est le produit.
 7. Le modèle. Interchangeable. API en entreprise, modèle local sur l'affiche à zéro dollar. Il n'est pas l'architecture.
-8. L'orchestration de plusieurs étapes. Un graphe, comme le palier 08, ou LangGraph. CrewAI quand on veut des rôles. La plupart des systèmes en production restent un agent et un workflow, pas une foule d'agents.
+8. L'orchestration de plusieurs étapes. Un graphe, comme le palier 08, ou **LangGraph**. **CrewAI** quand on veut des rôles. La plupart des systèmes en production restent un agent et un workflow, pas une foule d'agents.
 9. Les traces et le coût. OpenTelemetry, puis Grafana ou l'outil du cloud. Nécessaire avec de vrais utilisateurs. Même famille que n'importe quel service.
 10. Le déploiement. Docker et le cloud déjà payé. Nécessaire pour servir. Sans effet sur la justesse de la réponse.
 

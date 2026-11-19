@@ -42,7 +42,7 @@ $$
 P(\text{succès}) = \prod_{i=1}^{n} p_i
 $$
 
-L'agent ne va au bout que si toutes ses étapes réussissent. Chaque \(p_i\) est au plus 1, donc ajouter une étape ne relève jamais la fiabilité. Fiche : [29](<../01-Introduction/29_fiabilite_serie.md>).
+L'agent ne va au bout que si toutes ses étapes réussissent. Chaque pᵢ est au plus 1, donc ajouter une étape ne relève jamais la fiabilité. Fiche : [29](<../01-Introduction/29_fiabilite_serie.md>).
 
 ### 3. Softmax et température — étape 2
 
@@ -50,7 +50,7 @@ $$
 P(i) = \frac{\exp(z_i / T)}{\sum_j \exp(z_j / T)}
 $$
 
-Les logits deviennent une loi sur le prochain token. \(T \to 0\) n'est pas une softmax : c'est un argmax. On la lit avant les prompts, parce qu'un prompt juge des tokens qui sortent d'ici. Fiche : [04](<../03-Modele/04_softmax_temperature.md>).
+Les logits deviennent une loi sur le prochain token. T → 0 n'est pas une softmax : c'est un argmax. On la lit avant les prompts, parce qu'un prompt juge des tokens qui sortent d'ici. Fiche : [04](<../03-Modele/04_softmax_temperature.md>).
 
 ### 4. Vraisemblance autorégressive — étape 3
 
@@ -88,7 +88,7 @@ $$
 score_j = w_{sim}\,\widetilde{sim}_j + w_{rec}\,\widetilde{rec}_j + w_{imp}\,\widetilde{imp}_j
 $$
 
-Poids positifs, somme 1. Chaque composante est ramenée dans \([0,1]\) par min-max sur les candidats du moment. La similarité est le cosinus de l'étape 14. Fiche : [27](<../05-Contexte/27_score_memoire.md>).
+Poids positifs, somme 1. Chaque composante est ramenée dans [0, 1] par min-max sur les candidats du moment. La similarité est le cosinus de l'étape 14. Fiche : [27](<../05-Contexte/27_score_memoire.md>).
 
 ### 8. TF-IDF, puis BM25 — étape 22
 
@@ -124,7 +124,7 @@ $$
 \mathrm{Attention}(Q,K,V) = \mathrm{softmax}\!\left(\frac{QK^{\top}}{\sqrt{d_k}}\right) V
 $$
 
-Le RAG a déjà gonflé le prompt. L'attention décide quels tokens de ce prompt pèsent sur le token en cours. La diviser par \(\sqrt{d_k}\) empêche le produit scalaire de saturer la softmax. Fiche : [05](<../03-Modele/05_attention_scaled_dot_product.md>).
+Le RAG a déjà gonflé le prompt. L'attention décide quels tokens de ce prompt pèsent sur le token en cours. La diviser par √dₖ empêche le produit scalaire de saturer la softmax. Fiche : [05](<../03-Modele/05_attention_scaled_dot_product.md>).
 
 ### 13. Encodage de position — étape 35
 
@@ -146,7 +146,7 @@ $$
 V^{*}(s) = \max_a \sum_{s'} \mathcal{P}(s' \mid s, a)\, \big[ \mathcal{R}(s,a,s') + \gamma V^{*}(s') \big]
 $$
 
-L'utilité espérée choisit une action. Bellman y ajoute la suite, actualisée par \(\gamma\). \(Q^{*}\) est la valeur d'une action ; la politique gloutonne prend l'argmax. Q-learning estime \(Q\) par l'expérience. REINFORCE monte le gradient de la politique : il apprend ce que Bellman décrit, il ne le remplace pas. A* (\(f = g + h\), étape 40) vient ensuite seulement : ce nombre ne dit pas si l'étape vaut le coup sous incertitude. Fiches : [10](<../06-Decision/10_utilite_esperee.md>), [09](<../06-Decision/09_equation_bellman.md>), [18](<../06-Decision/18_q_learning.md>), [19](<../06-Decision/19_reinforce.md>).
+L'utilité espérée choisit une action. Bellman y ajoute la suite, actualisée par γ. Q* est la valeur d'une action ; la politique gloutonne prend l'argmax. Q-learning estime Q par l'expérience. REINFORCE monte le gradient de la politique : il apprend ce que Bellman décrit, il ne le remplace pas. A* (f = g + h, étape 40) vient ensuite seulement : ce nombre ne dit pas si l'étape vaut le coup sous incertitude. Fiches : [10](<../06-Decision/10_utilite_esperee.md>), [09](<../06-Decision/09_equation_bellman.md>), [18](<../06-Decision/18_q_learning.md>), [19](<../06-Decision/19_reinforce.md>).
 
 ### 15. Valeur de l'information — étape 38
 
@@ -172,7 +172,17 @@ H = -\sum_i p_i \log p_i
 \mathrm{PPL} = \exp(\text{entropie croisée})
 $$
 
-La précision, le rappel et le F1 généraux ouvrent l'évaluation ; les variantes (contexte, appels d'outils) en sont des cas. La KL mesure un écart de lois, notamment quand un garde-fou ou un alignement compare deux distributions. Bayes remet une alerte à l'échelle du taux de base. Brier juge une probabilité, pas une étiquette. L'entropie mesure la dispersion ; la perplexité, à quel point le modèle est surpris par le token réel. Le score de risque (étape 67) vient après : il lit ces signaux, par exemple \(u = 1 - F\), \(u = 1 - 1/\mathrm{PPL}\), \(u = 1 - e^{-D_{KL}}\). Fiches : [14](<../04-Recherche/14_score_f1.md>), [17](<../07-Mesure/17_divergence_kl.md>), [07](<../07-Mesure/07_theoreme_bayes.md>), [20](<../07-Mesure/20_score_brier.md>), [21](<../07-Mesure/21_entropie.md>), [06](<../03-Modele/06_entropie_croisee.md>), [32](<../03-Modele/32_perplexite.md>).
+La précision, le rappel et le F1 généraux ouvrent l'évaluation ; les variantes (contexte, appels d'outils) en sont des cas. La KL mesure un écart de lois, notamment quand un garde-fou ou un alignement compare deux distributions. Bayes remet une alerte à l'échelle du taux de base. Brier juge une probabilité, pas une étiquette. L'entropie mesure la dispersion ; la perplexité, à quel point le modèle est surpris par le token réel. Le score de risque (étape 67) vient après : il lit ces signaux, par exemple sous ces trois formes :
+
+$$
+u = 1 - F
+\qquad
+u = 1 - \frac{1}{\mathrm{PPL}}
+\qquad
+u = 1 - e^{-D_{KL}}
+$$
+
+Fiches : [14](<../04-Recherche/14_score_f1.md>), [17](<../07-Mesure/17_divergence_kl.md>), [07](<../07-Mesure/07_theoreme_bayes.md>), [20](<../07-Mesure/20_score_brier.md>), [21](<../07-Mesure/21_entropie.md>), [06](<../03-Modele/06_entropie_croisee.md>), [32](<../03-Modele/32_perplexite.md>).
 
 ### 17. Coût d'inférence — étape 72
 
@@ -180,7 +190,7 @@ $$
 \text{Coût} = N_{in} P_{in} + N_{out} P_{out}
 $$
 
-Le prix d'un appel est linéaire. Sans élagage, l'étape \(k\) relit tout l'historique et le total d'entrée croît comme \(K^2\). On chiffre le service quand la boucle existe vraiment. Fiche : [16](<../09-Production/16_cout_inference.md>).
+Le prix d'un appel est linéaire. Sans élagage, l'étape k relit tout l'historique et le total d'entrée croît comme K². On chiffre le service quand la boucle existe vraiment. Fiche : [16](<../09-Production/16_cout_inference.md>).
 
 ### 18. Gradient, descente, Adam — étapes 73 et 74
 
@@ -192,7 +202,7 @@ $$
 \theta \leftarrow \theta - \eta \nabla_\theta L
 $$
 
-La règle de la chaîne propage la perte. La descente marche à l'opposé du gradient. Adam donne un pas différent à chaque poids, parce que le même \(\eta\) ne convient pas à tous. On spécialise le modèle seulement quand l'agent sait déjà percevoir, décider et s'arrêter. Fiches : [34](<../08-Entrainement/34_gradient.md>), [08](<../08-Entrainement/08_descente_de_gradient.md>), [31](<../08-Entrainement/31_adam.md>).
+La règle de la chaîne propage la perte. La descente marche à l'opposé du gradient. Adam donne un pas différent à chaque poids, parce que le même η ne convient pas à tous. On spécialise le modèle seulement quand l'agent sait déjà percevoir, décider et s'arrêter. Fiches : [34](<../08-Entrainement/34_gradient.md>), [08](<../08-Entrainement/08_descente_de_gradient.md>), [31](<../08-Entrainement/31_adam.md>).
 
 L'étape 77 n'ajoute pas de formule. Elle assemble celles-ci dans un seul programme.
 
